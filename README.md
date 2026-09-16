@@ -2,7 +2,15 @@
 
 一个纯静态、零外部依赖（无 CDN / 无外部字体）的求职作品集站点，用于应聘 **AI 训练师（大数据标注）/ 标注质检** 岗位。
 
-线上地址：`https://<你的用户名>.github.io/<仓库名>/`
+线上地址：**<https://kongxiu7.github.io/portfolio/>**
+
+实测质量（Lighthouse 12，桌面端，线上真实环境）：
+
+| 性能 | 无障碍 | 最佳实践 | SEO |
+| --- | --- | --- | --- |
+| 99 | 100 | 100 | 100 |
+
+首屏体积（gzip 后）约 58 KB；FCP 1.6 s、LCP 1.6 s、TBT 0 ms、CLS 0。
 
 ## 目录结构
 
@@ -36,6 +44,10 @@ npx serve .
 
 ## 部署到 GitHub Pages
 
+**本仓库已部署完成**，推送到 `main` 分支即会自动重新构建（约 1 分钟）。
+
+如需在其他账号下重新部署：
+
 1. 新建仓库（例如 `portfolio`），把本目录全部文件推送到 `main` 分支：
 
    ```bash
@@ -47,9 +59,10 @@ npx serve .
 
 2. 仓库 **Settings → Pages**：Source 选 `Deploy from a branch`，Branch 选 `main` / `(root)`，保存。
 3. 等待 1–2 分钟，访问 `https://<用户名>.github.io/<仓库名>/`。
-4. 部署完成后，把 `index.html` 中 `__SITE_URL__` 占位符替换为真实地址（共 4 处：`og:image`、`og:url`、`canonical`、JSON-LD 的 `url`）。
+4. 把 `index.html` 中 `__SITE_URL__` 占位符替换为真实地址（共 4 处：`og:image`、`og:url`、`canonical`、JSON-LD 的 `url`）。
 
 > 绑定自定义域名：在仓库 Pages 设置里填写 Custom domain，并在域名服务商添加 CNAME 记录指向 `<用户名>.github.io`。
+> ⚠️ 若用 Cloudflare 代理自定义域名，记得保留 `index.html` 中的 `<!--email_off-->` 标记，否则页面上的邮箱会被替换成 `[email protected]`。
 
 ## 日常维护建议
 
