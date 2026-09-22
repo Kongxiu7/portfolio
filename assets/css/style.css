@@ -624,13 +624,80 @@ table.data .trend { font-weight: 700; white-space: nowrap; }
 .totop.is-on { opacity: 1; visibility: visible; transform: none; }
 .totop:hover { color: var(--brand); border-color: var(--brand-300); }
 
-/* ---------- 18. Reveal ----------
+/* ---------- 18. AIGC 电商视觉作品集 ----------
+   说明：用独立的 .shot / .cw / .cmp 命名，避免与标注案例的 .figure 规则互相牵制。 */
+.shot {
+  margin: 0; border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; background: #fff; box-shadow: var(--shadow-sm);
+}
+.shot img { width: 100%; height: auto; display: block; }
+.shot figcaption {
+  padding: 12px 16px; font-size: 12.5px; color: var(--muted);
+  border-top: 1px solid var(--line-2); background: var(--surface-2);
+}
+.shot--wide { margin-top: 22px; }
+
+/* 详情页长图 1000×3530，直接铺满会把页面撑得极长且拖慢加载。
+   这里限定视窗高度并在框内滚动，完整长图仍可通过链接单独打开。 */
+.shot--tall .shot__scroll { max-height: 72vh; overflow: auto; overscroll-behavior: contain; }
+.shot--tall .shot__scroll img { display: block; width: 100%; height: auto; }
+.shot--tall .shot__more { font-size: 12.5px; }
+
+/* 多色 SKU 色卡栅格 */
+.cw {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px; margin-top: 26px;
+}
+.cw__item {
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  overflow: hidden; background: #fff; box-shadow: var(--shadow-xs);
+}
+/* 注意：height:auto 不能省。
+   img 标签带了 width/height 属性（用于防布局抖动），Chromium 会据此推导图片盒高度。
+   若这里只写 width:100% + aspect-ratio，实测盒高仍被解析成 1024px，
+   再叠加全局 img{max-width:100%} 把宽度压到约 139px，
+   盒子就变成 139×1024 的窄高条，object-fit:contain 把商品缩到正中间一小块。
+   （对照：.shot img 因为写了 height:auto 所以正常，这就是问题定位的关键线索。） */
+.cw__item img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; display: block; }
+.cw__item b { display: block; padding: 10px 12px 4px; font-size: 13.5px; color: var(--ink); }
+.cw__item span {
+  display: block; padding: 0 12px 12px; font-size: 11.5px;
+  color: var(--muted); font-family: var(--mono);
+}
+
+/* 精修前后对比 */
+.cmp { display: grid; grid-template-columns: 1.15fr .85fr; gap: 26px; align-items: start; }
+.cmp__list { margin: 0; padding: 0; list-style: none; }
+.cmp__list li {
+  position: relative; padding: 12px 0 12px 26px;
+  font-size: 14.5px; color: var(--ink-2); border-top: 1px solid var(--line-2);
+}
+.cmp__list li:last-child { border-bottom: 1px solid var(--line-2); }
+.cmp__list li::before {
+  content: ""; position: absolute; left: 6px; top: 20px;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--brand-300);
+}
+.cmp__list li b { color: var(--ink); }
+
+@media (max-width: 900px) {
+  .cw { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cmp { grid-template-columns: 1fr; gap: 18px; }
+}
+@media (max-width: 620px) {
+  .cw { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+}
+@media print {
+  .cw { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .shot, .cw__item { break-inside: avoid; }
+}
+
+/* ---------- 20. Reveal ----------
    只做位移、不做透明度：即使 JS 失效内容也始终可见、不损失对比度。
    仅在 <html> 带 .js 时启用初始位移，无 JS 时页面与静态页面完全一致。 */
 .js .reveal { transform: translateY(16px); }
 .js .reveal.is-in { transform: none; transition: transform .55s var(--ease); }
 
-/* ---------- 19. Responsive ---------- */
+/* ---------- 21. Responsive ---------- */
 @media (max-width: 1080px) {
   .nav__links { display: none; }
   .nav__toggle { display: flex; }
@@ -681,7 +748,7 @@ table.data .trend { font-weight: 700; white-space: nowrap; }
   .card { padding: 18px 16px; }
 }
 
-/* ---------- 20. Motion preference ---------- */
+/* ---------- 22. Motion preference ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important;
@@ -689,7 +756,7 @@ table.data .trend { font-weight: 700; white-space: nowrap; }
   .js .reveal, .reveal { opacity: 1; transform: none; }
 }
 
-/* ---------- 21. Print ---------- */
+/* ---------- 23. Print ---------- */
 @media print {
   :root { --section-gap: 26px; }
   body { background: #fff; font-size: 12pt; }
